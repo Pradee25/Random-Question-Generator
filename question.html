@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Survey - Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIfOb_eHBmJkScxEqvAa41uzVgxuk4-WxboKRcivyEt3lmCyJcei-osLFcruVcHoCXxmc&usqp=CAU'); /* Add your background image URL here */
+             /* Add your background image URL here */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 10px; /* Adjusted padding */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0 0 10px; /* Adjusted margin */
+        }
+
+        .question {
+            text-align: left;
+            margin-bottom: 10px; /* Adjusted margin */
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        .thank-you {
+            margin-top: 10px; /* Adjusted margin */
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Survey Questions</h1>
+        <form id="survey-form">
+            <div class="question" id="question-container">
+                <!-- The current question will be dynamically loaded here -->
+            </div>
+        </form>
+        <button type="button" id="generate-button">Start Answering</button>
+        
+        <div class="thank-you" id="thank-you-container" style="display: none;">
+            Thank you for completing the survey!!.
+        </div>
+    </div>
+
+    <script>
+        const surveyForm = document.getElementById("survey-form");
+        const questionContainer = document.getElementById("question-container");
+        const generateButton = document.getElementById("generate-button");
+        const thankYouContainer = document.getElementById("thank-you-container");
+
+        // Sample pool of questions (expanded to 20 questions)
+        const questions = [
+            "What is your favorite color?",
+            "What is your favorite book?",
+            "Do you prefer coffee or tea?",
+            "Are you a morning person or a night owl?",
+            "What is your pet name?",
+            "Do you enjoy cooking?",
+            "How do you spend your holidays?",
+            "What is your favorite movie?",
+            "What is your favorite type of music?",
+            "Do you have any pets?",
+            "Are you a introvert or extrovert?",
+            "What's your hobby?",
+            "Do you love reading books?",
+            "What is your favorite restaurant?",
+            "How do you handle your hard situation?",
+            "Who is your favorite Actor?",
+        ];
+
+        let currentQuestionIndex = 0;
+        const selectedQuestions = [];
+        const numQuestionsToSelect = 5;
+
+        // Function to select a random question from the pool
+        function selectRandomQuestion() {
+            const remainingQuestions = [...questions];
+            for (let i = 0; i < numQuestionsToSelect; i++) {
+                if (remainingQuestions.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * remainingQuestions.length);
+                    selectedQuestions.push(remainingQuestions.splice(randomIndex, 1)[0]);
+                }
+            }
+        }
+
+        // Function to display the next question
+        function displayNextQuestion() {
+            if (currentQuestionIndex < numQuestionsToSelect) {
+                const questionElement = document.createElement("div");
+                questionElement.classList.add("question");
+                questionElement.innerHTML = `<label>${selectedQuestions[currentQuestionIndex]}</label>
+                    <input type="text" id="q${currentQuestionIndex + 1}" name="q${currentQuestionIndex + 1}">`;
+                questionContainer.appendChild(questionElement);
+                currentQuestionIndex++;
+                if (currentQuestionIndex === 1) {
+                    generateButton.textContent = "Next";
+                }
+            } else {
+                generateButton.style.display = "none";
+                thankYouContainer.style.display = "block";
+            }
+        }
+
+        // Event listener for the "Generate Questions" button
+        generateButton.addEventListener("click", () => {
+            selectRandomQuestion();
+            displayNextQuestion();
+        });
+    </script>
+</body>
+</html>
